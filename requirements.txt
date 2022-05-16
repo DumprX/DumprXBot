@@ -1,0 +1,4 @@
+PyGithub
+python-dotenv
+python-telegram-bot
+pytz
