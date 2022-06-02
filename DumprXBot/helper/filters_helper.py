@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from telegram.ext import MessageFilter
 
-from DumprXBot import CHAT_ID, DEVS, UNAUTHORIZED_CHATS_ENCOUTER, dispatcher
+from DumprXBot import CHAT_IDS, DEVS, UNAUTHORIZED_CHATS_ENCOUTER, dispatcher
 
 
 class CustomFilters:
@@ -13,7 +13,7 @@ class CustomFilters:
                     and message.chat.id in UNAUTHORIZED_CHATS_ENCOUTER
                 ):
                     return False
-                if message.from_user.id not in DEVS and message.chat.id != CHAT_ID:
+                if message.from_user.id not in DEVS and message.chat.id not in CHAT_IDS:
                     TEXT = f"Hello, {message.from_user.first_name}!, I'm group restricted.\nPlease join support group and use me there."
                     keyboard = [
                         [
