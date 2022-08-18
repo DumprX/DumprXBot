@@ -3,10 +3,9 @@ from html import escape
 from importlib import import_module
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CallbackContext, CommandHandler
 
-from DumprXBot import CHAT_ID, DEVS, LOGGER, dispatcher, updater
+from DumprXBot import DEVS, LOGGER, dispatcher, updater
 from DumprXBot.helper import CustomFilters, bold, hyperlink
 from DumprXBot.modules import ALL_MODULES
 
@@ -46,9 +45,13 @@ def help(update: Update, context: CallbackContext):
     HELP_TEXT += f"{bold('Available Commands:')}\n"
     HELP_TEXT += f"- /start: To start me.\n"
     HELP_TEXT += f"- /help: To get this message.\n"
-    HELP_TEXT += f"- /request {escape('<link>')}: To request a dump of your file.\n"
+    HELP_TEXT += f"- /dump {{link}}: To request a dump of your file.\n"
     if user_id in DEVS:
         HELP_TEXT += f"- /ping: To check ping of the bot.\n"
+        HELP_TEXT += f"- /getcon {{link}}: To get content-type of given link.\n"
+        HELP_TEXT += f"- /addcon {{content-type}}: To add content-type to approved formats.\n"
+        HELP_TEXT += f"- /rmcon {{content-type}}: To remove content-type from approved formats.\n"
+        HELP_TEXT += f"- /cons: To get a list of all the approved content-type formats\n"
         HELP_TEXT += f"- /log: To get a log file of the bot.\n"
         HELP_TEXT += f"- /restart: To restart the bot."
     update.effective_message.reply_html(text=HELP_TEXT)
@@ -68,8 +71,12 @@ def main():
     botcmds = [
         ("start", "to start the bot"),
         ("help", "to get help message"),
-        ("request", "to request a dump of your file"),
+        ("dump", "to request a dump of your file"),
         ("ping", "to check ping of the bot (sudo)"),
+        ("getcon", "To get content-type of given link"),
+        ("addcon", "To add content-type to approved formats"),
+        ("rmcon", "To remove content-type from approved formats"),
+        ("cons", "To get a list of all the approved content-type formats"),
         ("log", "to get a log file of the bot (owner)"),
         ("restart", "to restart the bot (owner)"),
     ]
@@ -80,16 +87,16 @@ def main():
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
     LOGGER.info("Using long polling.")
-    try:
-        dispatcher.bot.send_message(
-            chat_id=CHAT_ID,
-            text=f"{bold('I am now alive!')}",
-            parse_mode=ParseMode.HTML,
-        )
-    except Unauthorized:
-        LOGGER.warning("Bot isn't able to send message to priv chat, go and check!")
-    except BadRequest as e:
-        LOGGER.warning(e.message)
+    #    try:
+    #        dispatcher.bot.send_message(
+    #            chat_id=CHAT_ID,
+    #            text=f"{bold('I am now alive!')}",
+    #            parse_mode=ParseMode.HTML,
+    #        )
+    #    except Unauthorized:
+    #        LOGGER.warning("Bot isn't able to send message to priv chat, go and check!")
+    #    except BadRequest as e:
+    #        LOGGER.warning(e.message)
     updater.start_polling()
     updater.idle()
 

@@ -15,7 +15,7 @@ from DumprXBot.helper import (
 def request(update: Update, context: CallbackContext):
     args = context.args
     if not args or len(args) > 1:
-        TEXT = f"{bold('Usage:')} {mono('/request {link}')}"
+        TEXT = f"{bold('Usage:')} {mono('/dump {link}')}"
         update.effective_message.reply_html(text=TEXT)
         return
     link = args[0]
@@ -25,7 +25,7 @@ def request(update: Update, context: CallbackContext):
         msg.edit_text(text=TEXT, parse_mode=ParseMode.HTML)
         return
     msg.edit_text(
-        text=f"{mono('Got valid link. Making pull request...')}",
+        text=f"{mono('Making pull request...')}",
         parse_mode=ParseMode.HTML,
     )
     user_id = update.effective_message.from_user.id
@@ -33,15 +33,15 @@ def request(update: Update, context: CallbackContext):
     username = update.effective_message.from_user.username or None
     USER_INFO = ""
     if username is not None:
-        USER_INFO += f"User: {full_name} [https://t.me/{username}]\n"
+        USER_INFO += f"User: [{full_name}](https://t.me/{username})\n"
     else:
         USER_INFO += f"User: {full_name}\n"
     USER_INFO += f"User ID: {user_id}\n"
     USER_INFO += f"Request Link: {link}"
     pull = GithubHandler.make_pr(link, USER_INFO)
     msg.delete()
-    TEXT = ""
-    TEXT += f"{bold('You dump request is successful!')}\n"
+    TEXT = "#DUMP_REQ\n"
+    TEXT += f"{bold('Your dump request is successful!')}\n"
     if username is not None:
         TEXT += f"{bold('User:')} {hyperlink(f'https://t.me/{username}', f'{full_name}')} ({mono(f'{user_id}')})\n"
     else:
@@ -63,5 +63,5 @@ def request(update: Update, context: CallbackContext):
     )
 
 
-request_handler = CommandHandler("request", request, filters=CustomFilters.authorized)
+request_handler = CommandHandler("dump", request, filters=CustomFilters.authorized)
 dispatcher.add_handler(request_handler)

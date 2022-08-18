@@ -23,14 +23,15 @@ class __Github:
             self.cleanup()
             self.repo_fork = self.g.get_repo(repo)
             return self.user.create_fork(self.repo_fork)
+            LOGGER.info("Making fork of latest repo...")
         except GithubException as err:
             LOGGER.error(err)
 
     def make_pr(self, link, user):
-        fork = self.fork(PR_REPO)
-        contents = fork.get_contents("ROM_URL.txt")
+        forkiee = self.fork(PR_REPO)
+        contents = forkiee.get_contents("ROM_URL.txt")
         try:
-            fork.update_file(
+            forkiee.update_file(
                 path=contents.path,
                 message="CI: New dump [BOT]",
                 content=link,
@@ -38,6 +39,7 @@ class __Github:
                 branch=PR_REPO_BRANCH,
                 committer=self.committer,
             )
+            LOGGER.info("Making pull request...")
             return self.repo_fork.create_pull(
                 title="New dump request [BOT]",
                 body=user,

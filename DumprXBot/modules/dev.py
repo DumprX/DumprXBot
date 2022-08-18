@@ -6,7 +6,7 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
 from DumprXBot import LOGGER, StartTime, dispatcher
-from DumprXBot.helper import bold, dev_check, get_readable_time, mono
+from DumprXBot.helper import CustomFilters, bold, dev_check, get_readable_time, mono
 
 
 @dev_check
@@ -48,9 +48,9 @@ def restart(update: Update, context: CallbackContext):
     execl(executable, executable, "-m", "DumprXBot")
 
 
-ping_handler = CommandHandler("ping", ping)
-log_handler = CommandHandler("log", send_log)
-restart_handler = CommandHandler("restart", restart)
+ping_handler = CommandHandler("ping", ping, filters=CustomFilters.authorized)
+log_handler = CommandHandler("log", send_log, filters=CustomFilters.authorized)
+restart_handler = CommandHandler("restart", restart, filters=CustomFilters.authorized)
 dispatcher.add_handler(ping_handler)
 dispatcher.add_handler(log_handler)
 dispatcher.add_handler(restart_handler)

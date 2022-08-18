@@ -2,3 +2,4 @@ PyGithub
 python-dotenv
 python-telegram-bot
 pytz
+psycopg2-binary
