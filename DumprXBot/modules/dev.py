@@ -5,8 +5,8 @@ from sys import executable
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
-from DumpXBot import LOGGER, StartTime, dispatcher
-from DumpXBot.helper import bold, dev_check, get_readable_time, mono
+from DumprXBot import LOGGER, StartTime, dispatcher
+from DumprXBot.helper import bold, dev_check, get_readable_time, mono
 
 
 @dev_check
@@ -28,7 +28,7 @@ def ping(update: Update, context: CallbackContext):
 
 @dev_check
 def send_log(update: Update, context: CallbackContext):
-    with open(f"DumpXBot.log", "rb") as log:
+    with open(f"DumprXBot.log", "rb") as log:
         update.effective_message.reply_document(
             document=log,
             filename=log.name,
@@ -45,7 +45,7 @@ def restart(update: Update, context: CallbackContext):
     with open(".restartmsg", "w") as remsg:
         remsg.truncate(0)
         remsg.write(f"{restart_message.chat_id}\n{restart_message.message_id}\n")
-    execl(executable, executable, "-m", "DumpXBot")
+    execl(executable, executable, "-m", "DumprXBot")
 
 
 ping_handler = CommandHandler("ping", ping)

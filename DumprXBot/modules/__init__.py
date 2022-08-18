@@ -1,7 +1,7 @@
 from glob import glob
 from os.path import basename, dirname, isfile
 
-from DumpXBot import LOGGER
+from DumprXBot import LOGGER
 
 
 def list_all_modules():

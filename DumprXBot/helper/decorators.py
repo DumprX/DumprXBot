@@ -1,5 +1,5 @@
-from DumpXBot import DEVS
-from DumpXBot.helper.text_helper import bold
+from DumprXBot import DEVS
+from DumprXBot.helper.text_helper import bold
 
 
 def dev_check(func):

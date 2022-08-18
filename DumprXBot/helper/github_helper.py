@@ -1,6 +1,6 @@
 from github import Github, GithubException, InputGitAuthor, UnknownObjectException
 
-from DumpXBot import GH_EMAIL, GH_TOKEN, GH_USER, LOGGER, PR_REPO, PR_REPO_BRANCH
+from DumprXBot import GH_EMAIL, GH_TOKEN, GH_USER, LOGGER, PR_REPO, PR_REPO_BRANCH
 
 
 class __Github:

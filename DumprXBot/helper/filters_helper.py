@@ -1,7 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from telegram.ext import MessageFilter
 
-from DumpXBot import CHAT_ID, DEVS, UNAUTHORIZED_CHATS_ENCOUTER, dispatcher
+from DumprXBot import CHAT_ID, DEVS, UNAUTHORIZED_CHATS_ENCOUTER, dispatcher
 
 
 class CustomFilters:

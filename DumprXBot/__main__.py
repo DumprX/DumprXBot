@@ -6,12 +6,12 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Upda
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CallbackContext, CommandHandler
 
-from DumpXBot import CHAT_ID, DEVS, LOGGER, dispatcher, updater
-from DumpXBot.helper import CustomFilters, bold, hyperlink
-from DumpXBot.modules import ALL_MODULES
+from DumprXBot import CHAT_ID, DEVS, LOGGER, dispatcher, updater
+from DumprXBot.helper import CustomFilters, bold, hyperlink
+from DumprXBot.modules import ALL_MODULES
 
 for module in ALL_MODULES:
-    import_module(f"DumpXBot.modules.{module}")
+    import_module(f"DumprXBot.modules.{module}")
 
 
 def start(update: Update, context: CallbackContext):

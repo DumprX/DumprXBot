@@ -1,8 +1,8 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
-from DumpXBot import PR_REPO, dispatcher
-from DumpXBot.helper import (
+from DumprXBot import PR_REPO, dispatcher
+from DumprXBot.helper import (
     CustomFilters,
     GithubHandler,
     bold,
