@@ -46,6 +46,7 @@ def help(update: Update, context: CallbackContext):
     HELP_TEXT += f"- /dump {{link}}: To request a dump of your file.\n"
     if user_id in DEVS:
         HELP_TEXT += f"- /ping: To check ping of the bot.\n"
+        HELP_TEXT += f"- /shell: To execute command in bot's environment.\n"
         HELP_TEXT += f"- /getcon {{link}}: To get content-type of given link.\n"
         HELP_TEXT += (
             f"- /addcon {{content-type}}: To add content-type to approved formats.\n"
@@ -75,6 +76,7 @@ def main():
         ("help", "to get help message"),
         ("dump", "to request a dump of your file"),
         ("ping", "to check ping of the bot (dev)"),
+        ("shell", "to execute a command in the bot's environment (dev)"),
         ("getcon", "to get content-type of given link (dev)"),
         ("addcon", "to add content-type to approved formats (dev)"),
         ("rmcon", "to remove content-type from approved formats (dev)"),
