@@ -22,6 +22,9 @@ def getConfig(config_name):
     return os.environ[config_name]
 
 
+CONTENT_FORMATS = []
+UNAUTHORIZED_CHATS_ENCOUTER = []
+
 try:
     BOT_TOKEN = getConfig("BOT_TOKEN")
     CHAT_ID = int(getConfig("CHAT_ID"))
@@ -35,7 +38,19 @@ except Exception as error:
     LOGGER.error("Fill all configs plox\nExiting...")
     exit(0)
 
-UNAUTHORIZED_CHATS_ENCOUTER = []
+try:
+    CONTENTS = {str(x) for x in getConfig("CONTENT_FORMATS").split(" ")}
+except:
+    CONTENTS = None
+
+try:
+    DB_URL = getConfig("DB_URL")
+except:
+    DB_URL = None
+
+if CONTENTS is not None:
+    for cformat in CONTENTS:
+        CONTENT_FORMATS.append(cformat)
 
 updater = Updater(token=BOT_TOKEN)
 dispatcher = updater.dispatcher

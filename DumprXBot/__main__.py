@@ -47,6 +47,14 @@ def help(update: Update, context: CallbackContext):
     HELP_TEXT += f"- /dump {{link}}: To request a dump of your file.\n"
     if user_id in DEVS:
         HELP_TEXT += f"- /ping: To check ping of the bot.\n"
+        HELP_TEXT += f"- /getcon {{link}}: To get content-type of given link.\n"
+        HELP_TEXT += (
+            f"- /addcon {{content-type}}: To add content-type to approved formats.\n"
+        )
+        HELP_TEXT += f"- /rmcon {{content-type}}: To remove content-type from approved formats.\n"
+        HELP_TEXT += (
+            f"- /cons: To get a list of all the approved content-type formats\n"
+        )
         HELP_TEXT += f"- /log: To get a log file of the bot.\n"
         HELP_TEXT += f"- /restart: To restart the bot."
     update.effective_message.reply_html(text=HELP_TEXT)
@@ -68,6 +76,10 @@ def main():
         ("help", "to get help message"),
         ("dump", "to request a dump of your file"),
         ("ping", "to check ping of the bot (dev)"),
+        ("getcon", "to get content-type of given link (dev)"),
+        ("addcon", "to add content-type to approved formats (dev)"),
+        ("rmcon", "to remove content-type from approved formats (dev)"),
+        ("cons", "to get a list of all the approved content-type formats (dev)"),
         ("log", "to get a log file of the bot (dev)"),
         ("restart", "to restart the bot (dev)"),
     ]
