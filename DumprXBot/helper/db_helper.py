@@ -39,7 +39,7 @@ class DbManager:
         ctypes = self.cur.fetchall()
         if ctypes:
             for ctype in ctypes:
-                CONTENT_FORMATS.append(ctype)
+                CONTENT_FORMATS.append(ctype[0])
             LOGGER.info("Content data has been loaded from Database")
         self.disconnect()
 
