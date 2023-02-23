@@ -1,27 +1,21 @@
+from NoobStuffs.libformatter import HTML
 from telegram import Update
 from telegram.ext import CallbackContext, CommandHandler
 
 from DumprXBot import CONTENT_FORMATS, DB_URL, dispatcher
-from DumprXBot.helper import (
-    CustomFilters,
-    DbManager,
-    bold,
-    dev_check,
-    get_content_type,
-    mono,
-)
+from DumprXBot.helper import CustomFilters, DbManager, dev_check, get_content_type
 
 
 @dev_check
 def get_con(update: Update, context: CallbackContext):
     args = context.args
     if not args or len(args) > 1:
-        TEXT = f"{bold('Usage:')} {mono('/getcon {link}')}"
+        TEXT = f"{HTML.bold('Usage:')} {HTML.mono('/getcon {link}')}"
         update.effective_message.reply_html(text=TEXT)
         return
     link = args[0]
     contype = get_content_type(link)
-    TEXT = f"{bold('Content Type:')} {mono(f'{contype}')}"
+    TEXT = f"{HTML.bold('Content Type:')} {HTML.mono(f'{contype}')}"
     update.effective_message.reply_html(text=TEXT)
 
 
@@ -29,18 +23,18 @@ def get_con(update: Update, context: CallbackContext):
 def add_con(update: Update, context: CallbackContext):
     args = context.args
     if not args or len(args) > 1:
-        TEXT = f"{bold('Usage:')} {mono('/addcon {content-type}')}"
+        TEXT = f"{HTML.bold('Usage:')} {HTML.mono('/addcon {content-type}')}"
         update.effective_message.reply_html(text=TEXT)
         return
     con = args[0]
     if con in CONTENT_FORMATS:
-        TEXT = f"{con} is already a {bold('Content formats!')}"
+        TEXT = f"{con} is already a {HTML.bold('Content formats!')}"
         update.effective_message.reply_html(text=TEXT)
         return
     if DB_URL is not None:
         TEXT = DbManager().addcon(con)
     else:
-        TEXT = f"Successfully added {mono(f'{con}')} to {bold('Content formats!')}"
+        TEXT = f"Successfully added {HTML.mono(f'{con}')} to {HTML.bold('Content formats!')}"
     CONTENT_FORMATS.append(con)
     update.effective_message.reply_html(text=TEXT)
 
@@ -49,18 +43,18 @@ def add_con(update: Update, context: CallbackContext):
 def rm_con(update: Update, context: CallbackContext):
     args = context.args
     if not args or len(args) > 1:
-        TEXT = f"{bold('Usage:')} {mono('/rmcon {content-type}')}"
+        TEXT = f"{HTML.bold('Usage:')} {HTML.mono('/rmcon {content-type}')}"
         update.effective_message.reply_html(text=TEXT)
         return
     con = args[0]
     if con not in CONTENT_FORMATS:
-        TEXT = f"{con} is not in {bold('Content formats!')}"
+        TEXT = f"{con} is not in {HTML.bold('Content formats!')}"
         update.effective_message.reply_html(text=TEXT)
         return
     if DB_URL is not None:
         TEXT = DbManager().rmcon(con)
     else:
-        TEXT = f"Successfully removed {mono(f'{con}')} from {bold('Content formats!')}"
+        TEXT = f"Successfully removed {HTML.mono(f'{con}')} from {HTML.bold('Content formats!')}"
     CONTENT_FORMATS.remove(con)
     update.effective_message.reply_html(text=TEXT)
 
@@ -68,12 +62,12 @@ def rm_con(update: Update, context: CallbackContext):
 @dev_check
 def all_cons(update: Update, context: CallbackContext):
     TEXT = ""
-    TEXT += f"{bold('Content Formats:')}\n"
+    TEXT += f"{HTML.bold('Content Formats:')}\n"
     if len(CONTENT_FORMATS) == 0:
-        TEXT += f"{mono('None')}\n"
+        TEXT += f"{HTML.mono('None')}\n"
     else:
         for ctypes in CONTENT_FORMATS:
-            TEXT += f"{mono(f'{ctypes}')}\n"
+            TEXT += f"{HTML.mono(f'{ctypes}')}\n"
     update.effective_message.reply_html(text=TEXT)
 
 

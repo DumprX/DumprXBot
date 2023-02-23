@@ -2,24 +2,25 @@ import time
 from os import execl
 from sys import executable
 
+from NoobStuffs.libformatter import HTML
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
 from DumprXBot import LOGGER, StartTime, dispatcher
-from DumprXBot.helper import CustomFilters, bold, dev_check, get_readable_time, mono
+from DumprXBot.helper import CustomFilters, dev_check, get_readable_time
 
 
 @dev_check
 def ping(update: Update, context: CallbackContext):
     start_time = time.time()
-    message = update.effective_message.reply_html(f"{mono('Pinging...')}")
+    message = update.effective_message.reply_html(f"{HTML.mono('Pinging...')}")
     end_time = time.time()
     telegram_ping = f"{str(round((end_time - start_time) * 1000, 3))} ms"
     uptime = get_readable_time(time.time() - StartTime)
     PING_TEXT = ""
     PING_TEXT += f"PONG!!\n"
-    PING_TEXT += f"{bold('Time Taken:')} {mono(f'{telegram_ping}')}\n"
-    PING_TEXT += f"{bold('Service Uptime:')} {mono(f'{uptime}')}"
+    PING_TEXT += f"{HTML.bold('Time Taken:')} {HTML.mono(f'{telegram_ping}')}\n"
+    PING_TEXT += f"{HTML.bold('Service Uptime:')} {HTML.mono(f'{uptime}')}"
     message.edit_text(
         text=PING_TEXT,
         parse_mode=ParseMode.HTML,
@@ -39,7 +40,7 @@ def send_log(update: Update, context: CallbackContext):
 @dev_check
 def restart(update: Update, context: CallbackContext):
     restart_message = update.effective_message.reply_html(
-        text=f"{mono('Restarting bot...')}",
+        text=f"{HTML.mono('Restarting bot...')}",
     )
     LOGGER.info("Restarting bot...")
     with open(".restartmsg", "w") as remsg:

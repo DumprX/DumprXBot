@@ -1,3 +1,4 @@
+noobstuffs
 psycopg2-binary
 PyGithub
 python-dotenv

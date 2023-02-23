@@ -1,7 +1,7 @@
+from NoobStuffs.libformatter import HTML
 from psycopg2 import DatabaseError, connect
 
 from DumprXBot import CONTENT_FORMATS, DB_URL, LOGGER
-from DumprXBot.helper.text_helper import bold, mono
 
 
 class DbManager:
@@ -49,7 +49,7 @@ class DbManager:
         self.cur.execute(f"INSERT INTO dumpr (contype) VALUES (%s)", (cont,))
         self.conn.commit()
         self.disconnect()
-        return f"Successfully added {mono(f'{cont}')} to {bold('Content formats!')}"
+        return f"Successfully added {HTML.mono(f'{cont}')} to {HTML.bold('Content formats!')}"
 
     def rmcon(self, cont: str):
         if self.error:
@@ -57,9 +57,7 @@ class DbManager:
         self.cur.execute("DELETE FROM dumpr WHERE contype = %s", (cont,))
         self.conn.commit()
         self.disconnect()
-        return (
-            f"Successfully removed  {mono(f'{cont}')} from {bold('Content formats!')}"
-        )
+        return f"Successfully removed  {HTML.mono(f'{cont}')} from {HTML.bold('Content formats!')}"
 
 
 if DB_URL is not None:

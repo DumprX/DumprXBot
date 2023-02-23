@@ -1,11 +1,12 @@
 import os
 from importlib import import_module
 
+from NoobStuffs.libformatter import HTML
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
 from DumprXBot import DEVS, LOGGER, dispatcher, updater
-from DumprXBot.helper import CustomFilters, bold, hyperlink
+from DumprXBot.helper import CustomFilters
 from DumprXBot.modules import ALL_MODULES
 
 for module in ALL_MODULES:
@@ -16,11 +17,9 @@ def start(update: Update, context: CallbackContext):
     user_first_name = update.effective_user.first_name
     bot_first_name = context.bot.first_name
     START_TEXT = ""
-    START_TEXT += (
-        f"Hey {bold(f'{user_first_name}')}, I'm {bold(f'{bot_first_name}')}!\n\n"
-    )
-    START_TEXT += f"{bold(f'•')} I'm a bot made to request dumps in {hyperlink('https://github.com/DumprX/DumprX-CI.git', 'DumprXCI')}.\n"
-    START_TEXT += f"{bold(f'•')} Hit /help to find out more about how to use me to my full potential."
+    START_TEXT += f"Hey {HTML.bold(f'{user_first_name}')}, I'm {HTML.bold(f'{bot_first_name}')}!\n\n"
+    START_TEXT += f"{HTML.bold(f'•')} I'm a bot made to request dumps in {HTML.hyperlink('https://github.com/DumprX/DumprX-CI.git', 'DumprXCI')}.\n"
+    START_TEXT += f"{HTML.bold(f'•')} Hit /help to find out more about how to use me to my full potential."
     keyboard = [
         [
             InlineKeyboardButton(text="Channel", url="https://t.me/DumprXDumps"),
@@ -41,7 +40,7 @@ def start(update: Update, context: CallbackContext):
 def help(update: Update, context: CallbackContext):
     user_id = update.effective_message.from_user.id
     HELP_TEXT = ""
-    HELP_TEXT += f"{bold('Available Commands:')}\n"
+    HELP_TEXT += f"{HTML.bold('Available Commands:')}\n"
     HELP_TEXT += f"- /start: To start me.\n"
     HELP_TEXT += f"- /help: To get this message.\n"
     HELP_TEXT += f"- /dump {{link}}: To request a dump of your file.\n"
@@ -65,7 +64,7 @@ def main():
         with open(".restartmsg") as remsg:
             chat_id, msg_id = map(int, remsg)
         dispatcher.bot.edit_message_text(
-            text=f"{bold('Restarted bot successfully!')}",
+            text=f"{HTML.bold('Restarted bot successfully!')}",
             chat_id=chat_id,
             message_id=msg_id,
             parse_mode=ParseMode.HTML,
@@ -93,7 +92,7 @@ def main():
     #    try:
     #        dispatcher.bot.send_message(
     #            chat_id=CHAT_ID,
-    #            text=f"{bold('I am now alive!')}",
+    #            text=f"{HTML.bold('I am now alive!')}",
     #            parse_mode=ParseMode.HTML,
     #        )
     #    except Unauthorized:

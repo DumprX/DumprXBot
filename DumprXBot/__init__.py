@@ -3,17 +3,12 @@ import os
 import time
 
 from dotenv import load_dotenv
+from NoobStuffs.liblogging import setup_logging
 from telegram.ext import Updater
 
 StartTime = time.time()
 
-logging.basicConfig(
-    format="[%(asctime)s - %(name)s] %(levelname)s - %(message)s",
-    datefmt="%d-%b-%y %H:%M:%S",
-    handlers=[logging.FileHandler(f"{__name__}.log"), logging.StreamHandler()],
-    level=logging.INFO,
-)
-LOGGER = logging.getLogger(__name__)
+LOGGER = setup_logging("DumprXBot")
 
 load_dotenv("config.env")
 
