@@ -14,7 +14,7 @@ LABEL maintainer="Sushrut1101 <guptasushrut@gmail.com>"
 RUN pacman -Syyu --noconfirm
 RUN pacman -S --noconfirm \
 	git curl wget \
-	python python-pip python-setuptools \
+	python3 python-pip python-setuptools \
 	neofetch tmate speedtest-cli
 
 # Working Directory
@@ -28,7 +28,7 @@ EXPOSE 5000
 COPY . /app/
 
 # Install python dependencies
-RUN pip install -U --no-cache-dir -r requirements.txt
+RUN pip3 install -U --no-cache-dir -r requirements.txt
 
 # Set the deploy command
-CMD ["python", "-m", "DumprXBot"]
+CMD ["python3", "-m", "DumprXBot"]
