@@ -5,7 +5,7 @@
 #
 
 # Base Image
-FROM archlinux:latest
+FROM archlinux:base-devel
 
 # Image Maintainer
 LABEL maintainer="Sushrut1101 <guptasushrut@gmail.com>"
