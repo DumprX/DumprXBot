@@ -29,7 +29,8 @@ class __Github:
 
     def make_pr(self, link, user):
         forkee = self.fork(PR_REPO)
-        contents = forkee.get_contents("ROM_URL.txt")
+        # contents = forkee.get_contents("ROM_URL.txt")
+        contents = self.g.get_repo(PR_REPO).get_contents("ROM_URL.txt")
         try:
             forkee.update_file(
                 path=contents.path,
