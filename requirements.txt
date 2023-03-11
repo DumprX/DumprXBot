@@ -1,6 +1,6 @@
-noobstuffs
-psycopg2-binary
-PyGithub
-python-dotenv
+noobstuffs==1.0.8
+psycopg2-binary==2.9.5
+PyGithub==1.57
+python-dotenv==0.21.1
 python-telegram-bot==13.15
-pytz
+pytz==2022.7.1
