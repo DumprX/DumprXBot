@@ -6,8 +6,8 @@ from NoobStuffs.libformatter import HTML
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 
-from DumprXBot import LOGGER, StartTime, dispatcher
-from DumprXBot.helper import CustomFilters, dev_check, get_readable_time
+from DumprXBot import CONFIGS, LOGGER, StartTime, dispatcher
+from DumprXBot.helper import CustomFilters, DbManager, dev_check, get_readable_time
 
 
 @dev_check
@@ -38,6 +38,32 @@ def send_log(update: Update, context: CallbackContext):
 
 
 @dev_check
+def maintenance(update: Update, context: CallbackContext):
+    args = context.args
+    if not args or len(args) > 1:
+        TEXT = f"{HTML.bold('Usage:')} {HTML.mono('/maintenance {ON/OFF}')}"
+        return update.effective_message.reply_html(text=TEXT)
+    arg = args[0].lower()
+    status = CONFIGS["in_maintenance"]
+    if arg == "on" and status == True:
+        TEXT = f"{HTML.bold('Bot is already on maintenance mode.')}"
+    elif arg == "on" and status == False:
+        CONFIGS["in_maintenance"] = True
+        DbManager().toggleconf("in_maintenance", True)
+        TEXT = f"{HTML.bold('Turned on maintenance mode.')}"
+    elif arg == "off" and status == True:
+        CONFIGS["in_maintenance"] = False
+        DbManager().toggleconf("in_maintenance", False)
+        TEXT = f"{HTML.bold('Turned off maintenance mode.')}"
+    elif arg == "off" and status == False:
+        TEXT = f"{HTML.bold('Bot is not on maintenance mode.')}"
+    else:
+        TEXT = f"{HTML.bold('Usage:')} {HTML.mono('/maintenance {ON/OFF}')}"
+        return update.effective_message.reply_html(text=TEXT)
+    update.effective_message.reply_html(text=TEXT)
+
+
+@dev_check
 def restart(update: Update, context: CallbackContext):
     restart_message = update.effective_message.reply_html(
         text=f"{HTML.mono('Restarting bot...')}",
@@ -51,7 +77,13 @@ def restart(update: Update, context: CallbackContext):
 
 ping_handler = CommandHandler("ping", ping, filters=CustomFilters.authorized)
 log_handler = CommandHandler("log", send_log, filters=CustomFilters.authorized)
+maintenance_handler = CommandHandler(
+    "maintenance",
+    maintenance,
+    filters=CustomFilters.authorized,
+)
 restart_handler = CommandHandler("restart", restart, filters=CustomFilters.authorized)
 dispatcher.add_handler(ping_handler)
 dispatcher.add_handler(log_handler)
+dispatcher.add_handler(maintenance_handler)
 dispatcher.add_handler(restart_handler)

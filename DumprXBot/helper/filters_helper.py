@@ -1,7 +1,33 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from NoobStuffs.libformatter import HTML
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message, ParseMode
 from telegram.ext import MessageFilter
 
-from DumprXBot import CHAT_IDS, DEVS, UNAUTHORIZED_CHATS_ENCOUTER, dispatcher
+from DumprXBot import (
+    CHAT_IDS,
+    CONFIGS,
+    DEVS,
+    MAINTENANCE_USER_ENCOUNTER,
+    UNAUTHORIZED_CHATS_ENCOUTER,
+    dispatcher,
+    updater,
+)
+
+
+def check_maintenance(usr_id_check: int, chat_id: int, msg_id: int):
+    if CONFIGS["in_maintenance"]:
+        if usr_id_check not in DEVS:
+            if usr_id_check in MAINTENANCE_USER_ENCOUNTER:
+                return False
+            else:
+                updater.bot.send_message(
+                    text=f"{HTML.bold('Bot is under maintenance.')}",
+                    chat_id=chat_id,
+                    reply_to_message_id=msg_id,
+                    parse_mode=ParseMode.HTML,
+                )
+                MAINTENANCE_USER_ENCOUNTER.append(usr_id_check)
+                return False
+    return True
 
 
 class CustomFilters:
@@ -36,7 +62,11 @@ class CustomFilters:
                     UNAUTHORIZED_CHATS_ENCOUTER.append(message.chat.id)
                     return False
                 else:
-                    return True
+                    return check_maintenance(
+                        message.from_user.id,
+                        message.chat.id,
+                        message.message_id,
+                    )
             else:
                 if (
                     message.from_user.id not in DEVS
@@ -65,6 +95,10 @@ class CustomFilters:
                     UNAUTHORIZED_CHATS_ENCOUTER.append(message.from_user.id)
                     return False
                 else:
-                    return True
+                    return check_maintenance(
+                        message.from_user.id,
+                        message.chat.id,
+                        message.message_id,
+                    )
 
     authorized = Authorized()

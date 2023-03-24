@@ -1,7 +1,7 @@
 from NoobStuffs.libformatter import HTML
 from psycopg2 import DatabaseError, connect
 
-from DumprXBot import CONTENT_FORMATS, DB_URL, LOGGER
+from DumprXBot import CONFIGS, CONTENT_FORMATS, DB_URL, LOGGER
 
 
 class DbManager:
@@ -30,6 +30,13 @@ class DbManager:
         );
         """
         self.cur.execute(sql)
+        sql = """
+        CREATE TABLE IF NOT EXISTS dumpr_configs (
+            config text,
+            status boolean
+        );
+        """
+        self.cur.execute(sql)
         self.conn.commit()
         LOGGER.info("Database Initiated")
         self.db_load()
@@ -41,6 +48,12 @@ class DbManager:
             for ctype in ctypes:
                 CONTENT_FORMATS.append(ctype[0])
             LOGGER.info("Content data has been loaded from Database")
+        self.cur.execute("SELECT * FROM dumpr_configs;")
+        confs = self.cur.fetchall()
+        if confs:
+            for con in confs:
+                CONFIGS[con[0]] = con[1]
+            LOGGER.info("Configs data has been loaded from Database")
         self.disconnect()
 
     def addcon(self, cont: str):
@@ -58,6 +71,40 @@ class DbManager:
         self.conn.commit()
         self.disconnect()
         return f"Successfully removed  {HTML.mono(f'{cont}')} from {HTML.bold('Content formats!')}"
+
+    def toggleconf(self, conf_name: str, conf_status: bool):
+        if self.error:
+            return "Error in DB_URL connection, check logs for details"
+        if self.check_conf(conf_name):
+            self.cur.execute(
+                "UPDATE dumpr_configs SET status = %s WHERE config = %s",
+                (conf_status, conf_name),
+            )
+            self.conn.commit()
+            self.disconnect()
+            return f"Successfully updated config - {HTML.bold(f'{conf_name}:')} {HTML.mono(f'{conf_status}')}"
+        self.cur.execute(
+            "INSERT INTO dumpr_configs (config, status) VALUES (%s, %s)",
+            (conf_name, conf_status),
+        )
+        self.conn.commit()
+        self.disconnect()
+        return f"Successfully added new config - {HTML.bold(f'{conf_name}:')} {HTML.mono(f'{conf_status}')}"
+
+    def check_conf(self, conf_name: str):
+        if self.error:
+            return "Error in DB_URL connection, check logs for details"
+        self.cur.execute("SELECT * FROM dumpr_configs WHERE config = %s", (conf_name,))
+        res = self.cur.fetchone()
+        return res
+
+    def rmconf(self, conf_name: str):
+        if self.error:
+            return "Error in DB_URL connection, check logs for details"
+        self.cur.execute("DELETE FROM dumpr_configs WHERE config = %s ", (conf_name,))
+        self.conn.commit()
+        self.disconnect()
+        return f"Successfully removed config - {HTML.bold(f'{conf_name}:')}"
 
 
 if DB_URL is not None:

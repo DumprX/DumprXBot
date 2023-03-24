@@ -17,8 +17,10 @@ def getConfig(config_name):
     return os.environ[config_name]
 
 
+CONFIGS = {}
 CONTENT_FORMATS = []
 UNAUTHORIZED_CHATS_ENCOUTER = []
+MAINTENANCE_USER_ENCOUNTER = []
 
 try:
     BOT_TOKEN = getConfig("BOT_TOKEN")

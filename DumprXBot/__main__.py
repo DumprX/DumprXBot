@@ -56,6 +56,7 @@ def help(update: Update, context: CallbackContext):
             f"- /cons: To get a list of all the approved content-type formats\n"
         )
         HELP_TEXT += f"- /log: To get a log file of the bot.\n"
+        HELP_TEXT += f"- /maintenance {{ON/OFF}}: To turn ON/OFF maintenance mode.\n"
         HELP_TEXT += f"- /restart: To restart the bot."
     update.effective_message.reply_html(text=HELP_TEXT)
 
@@ -82,6 +83,7 @@ def main():
         ("rmcon", "to remove content-type from approved formats (dev)"),
         ("cons", "to get a list of all the approved content-type formats (dev)"),
         ("log", "to get a log file of the bot (dev)"),
+        ("maintenance", "to turn on/off maintenance mode (dev)"),
         ("restart", "to restart the bot (dev)"),
     ]
     dispatcher.bot.set_my_commands(botcmds)
