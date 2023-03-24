@@ -44,6 +44,7 @@ def help(update: Update, context: CallbackContext):
     HELP_TEXT += f"- /start: To start me.\n"
     HELP_TEXT += f"- /help: To get this message.\n"
     HELP_TEXT += f"- /dump {{link}}: To request a dump of your file.\n"
+    HELP_TEXT += f"- /direct {{link}}: To get direct download link of given link (only supports we.tl for now).\n"
     if user_id in DEVS:
         HELP_TEXT += f"- /ping: To check ping of the bot.\n"
         HELP_TEXT += f"- /shell: To execute command in bot's environment.\n"
@@ -76,6 +77,7 @@ def main():
         ("start", "to start the bot"),
         ("help", "to get help message"),
         ("dump", "to request a dump of your file"),
+        ("direct", "to get direct download link of given link"),
         ("ping", "to check ping of the bot (dev)"),
         ("shell", "to execute a command in the bot's environment (dev)"),
         ("getcon", "to get content-type of given link (dev)"),
