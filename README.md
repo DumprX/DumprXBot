@@ -14,4 +14,3 @@ A Modular Telegram bot written in [Python](https://www.python.org/) using [pytho
 ```sh
 python3 -m DumprXBot
 ```
-
