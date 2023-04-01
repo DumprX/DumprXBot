@@ -36,6 +36,14 @@ def dump(update: Update, context: CallbackContext):
     USER_INFO += f"Request Link: {link}"
     pull = GithubHandler.make_pr(link, USER_INFO)
     msg.delete()
+    try:
+        getattr(pull, "number")
+    except AttributeError:
+        TEXT = f"{HTML.bold('Error while requesting dump: ')} {HTML.mono(f'{pull}')}"
+        return update.effective_message.reply_html(
+            text=TEXT,
+            disable_web_page_preview=True,
+        )
     TEXT = "#DUMP_REQ\n"
     TEXT += f"{HTML.bold('Your dump request is successful!')}\n"
     if username is not None:

@@ -50,6 +50,10 @@ class __Github:
             )
         except GithubException as err:
             LOGGER.error(err)
+            if err_msg := err.data["message"]:
+                return err_msg
+            else:
+                return "Something fucked while making Pull Request, plox check logs."
 
 
 GithubHandler = __Github()
